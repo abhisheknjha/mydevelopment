@@ -17,9 +17,6 @@ resources:
       accessConfigs:
       - name: External NAT
         type: ONE_TO_ONE_NAT
-    metadata:
-      DependsOn: 
-      - linuxvm
     tags:
       items:
       - http
@@ -50,9 +47,6 @@ resources:
       accessConfigs:
       - name: External NAT
         type: ONE_TO_ONE_NAT
-    metadata:
-      DependsOn: 
-      - linuxvm
     tags:
       items:
       - http
@@ -127,14 +121,14 @@ resources:
           sudo su -
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
           yum install ansible -y
+          /bin/sleep 10
           touch /etc/ansible/hosts
           mkdir /etc/ansible/group_vars      
           mkdir /etc/ansible/roles
           cd /etc/ansible/roles
+          gsutil cp gs://dryice-dmpoc/replace_var.sh .
           gsutil cp gs://dryiceiautomate/awx-installation.sh .
           gsutil cp -r gs://dryiceiautomate/reource/roles .
-          
-          echo "vault" > /etc/ansible/vault
     tags:
       items:
       - http
