@@ -121,7 +121,7 @@ resources:
           sudo su -
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
           yum install ansible -y
-          /bin/sleep 10
+          /bin/sleep 20
           touch /etc/ansible/hosts
           mkdir /etc/ansible/group_vars      
           mkdir /etc/ansible/roles
@@ -129,7 +129,6 @@ resources:
           gsutil cp gs://dryiceiautomate/replace_var.sh .
           sudo chmod 777 replace_var.sh
           ./replace_var.sh
-          
     tags:
       items:
       - http
