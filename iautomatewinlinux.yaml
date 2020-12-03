@@ -122,6 +122,8 @@ resources:
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
           yum install ansible -y
           /bin/sleep 10
+          mkdir iautomateshell
+          cd iautomateshell
           gsutil cp gs://dryiceiautomate/replace_var.sh .
           sudo chmod 777 replace_var.sh
           ./replace_var.sh
