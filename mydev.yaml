@@ -1,0 +1,53 @@
+resources:
+- name: iautomatevm
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-f
+    machineType: https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/zones/us-central1-f/machineTypes/n1-standard-4
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        diskName: disk-learncicd-287805
+        sourceImage: https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/images/rhel-7-v20201112
+    networkInterfaces:
+    - network:  https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/global/networks/default
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    metadata:
+      items:
+      - key: startup-script
+        value: |
+          #!/bin/bash
+          sudo su -
+          /bin/sleep 10
+          sudo yum install subscription-manager -y
+          /bin/sleep 30
+          mkdir iautomatedir     
+          cd iautomatedir
+      items:
+      - http
+    serviceAccounts:
+    - email: siddharth-c@dryicepoc-242713.iam.gserviceaccount.com
+      scopes:
+      - https://www.googleapis.com/auth/devstorage.read_only
+      - https://www.googleapis.com/auth/logging.write
+      - https://www.googleapis.com/auth/monitoring.write
+      - https://www.googleapis.com/auth/servicecontrol
+      - https://www.googleapis.com/auth/service.management.readonly
+      - https://www.googleapis.com/auth/trace.append
+- type: compute.v1.firewall
+  name: default-allow-http
+  properties:
+    network: https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/global/networks/default
+    targetTags: 
+    - http
+    allowed:
+    - IPProtocol: tcp
+      ports: 
+      - '8052'
+    sourceRanges: 
+    - 0.0.0.0/0
