@@ -125,7 +125,7 @@ resources:
           touch /etc/ansible/hosts
           mkdir /etc/ansible/group_vars      
           mkdir /etc/ansible/resources
-          gcloud auth activate-service-account --key-file=jenkins-sa.json .
+          gcloud cp gs://dryiceiautomate/jenkins-sa.json .
           gsutil cp gs://dryiceiautomate/replace.txt .
           gsutil cp gs://dryiceiautomate/replace_var.sh .
           sudo chmod 777 replace_var.sh
