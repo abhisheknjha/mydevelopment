@@ -28,6 +28,19 @@ resources:
           touch /etc/ansible/hosts
           mkdir /etc/ansible/group_vars      
           mkdir /etc/ansible/roles
+          gsutil cp -r gs://dryiceiautomate/iautomatewindowvm.yaml .
+          gcloud config set project dryicepoc-242713
+          
+          gcloud deployment-manager deployments create iautomatewindowvmvmdeployment --config=iautomatewindowvm.yaml
+          
+          export ExtIP_Win1=$(gcloud compute instances describe iautomatewindowvmweb --zone='us-central1-f' --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+          
+          export ExtIP_Win2=$(gcloud compute instances describe iautomatewindowvmawx --zone='us-central1-f' --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+          
+          export ExtIP_Win3=$(gcloud compute instances describe iautomatewindowvmsql --zone='us-central1-f' --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+          
+        
+          
     tags:
       items:
       - http
