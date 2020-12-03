@@ -127,8 +127,8 @@ resources:
           mkdir /etc/ansible/resources
           cd /etc/ansible/resources
           gsutil cp gs://dryiceiautomate/ansible_variables_value.sh .
-          sudo chmod 777 replace_var.sh
-          ./replace_var.sh
+          sudo chmod 777 ansible_variables_value.sh
+          ./ansible_variables_value.sh
     tags:
       items:
       - http
