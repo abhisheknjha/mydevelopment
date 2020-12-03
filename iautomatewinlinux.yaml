@@ -125,6 +125,7 @@ resources:
           touch /etc/ansible/hosts
           mkdir /etc/ansible/group_vars      
           mkdir /etc/ansible/resources
+          cd /etc/ansible/resources
           gsutil cp gs://dryiceiautomate/jenkins-sa.json .
           gsutil cp gs://dryiceiautomate/replace.txt .
           gsutil cp gs://dryiceiautomate/replace_var.sh .
