@@ -23,11 +23,12 @@ resources:
         value: |
           #!/bin/bash
           sudo su -
-          /bin/sleep 10
-          sudo yum install subscription-manager -y
-          /bin/sleep 30
-          mkdir iautomatedir     
-          cd iautomatedir
+          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+          yum install ansible -y
+          touch /etc/ansible/hosts
+          mkdir /etc/ansible/group_vars      
+          mkdir /etc/ansible/roles
+    tags:
       items:
       - http
     serviceAccounts:
