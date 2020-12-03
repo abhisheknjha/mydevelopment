@@ -126,8 +126,6 @@ resources:
           mkdir /etc/ansible/group_vars      
           mkdir /etc/ansible/resources
           cd /etc/ansible/resources
-          gsutil cp gs://dryiceiautomate/jenkins-sa.json .
-          gsutil cp gs://dryiceiautomate/replace.txt .
           gsutil cp gs://dryiceiautomate/replace_var.sh .
           sudo chmod 777 replace_var.sh
           ./replace_var.sh
