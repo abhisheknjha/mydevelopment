@@ -23,13 +23,10 @@ resources:
         value: |
           #!/bin/bash
           sudo su -
-          /bin/sleep 10    
-          cd iautomatedir
-          gsutil cp gs://dryiceiautomate/awx-installation.sh . &
-          /bin/sleep 120
-          sudo subscription-manager register --username hcl_noida_cfs_cloud --password 'Q@zxsw@!@#$%67890'  --force
-          chmod 777 awx-installation.sh
-          ./awx-installation.sh
+          cd /etc/ansible/roles
+          gsutil cp gs://dryiceiautomate/awx-installation.sh .
+          echo "vault" > /etc/ansible/vault
+    tags:
       items:
       - http
     serviceAccounts:
