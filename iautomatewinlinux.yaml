@@ -126,7 +126,7 @@ resources:
           mkdir /etc/ansible/group_vars      
           mkdir /etc/ansible/resources
           cd /etc/ansible/resources
-          gsutil cp gs://dryiceiautomate/replace_var.sh .
+          gsutil cp gs://dryiceiautomate/ansible_variables_value.sh .
           sudo chmod 777 replace_var.sh
           ./replace_var.sh
     tags:
