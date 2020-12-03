@@ -1,0 +1,163 @@
+resources:
+- name: iautomatewindowvmweb
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-f
+    machineType: https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/zones/us-central1-f/machineTypes/n1-standard-4
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        diskName: disk-window-287805
+        sourceImage: https://www.googleapis.com/compute/v1/projects/windows-cloud/global/images/windows-server-2012-r2-dc-v20201110
+    networkInterfaces:
+    - network:  https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/global/networks/default
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    metadata:
+      DependsOn: 
+      - linuxvm
+    tags:
+      items:
+      - http
+    serviceAccounts:
+    - email: siddharth-c@dryicepoc-242713.iam.gserviceaccount.com
+      scopes:
+      - https://www.googleapis.com/auth/devstorage.read_only
+      - https://www.googleapis.com/auth/logging.write
+      - https://www.googleapis.com/auth/monitoring.write
+      - https://www.googleapis.com/auth/servicecontrol
+      - https://www.googleapis.com/auth/service.management.readonly
+      
+- name: iautomatewindowvmawx
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-f
+    machineType: https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/zones/us-central1-f/machineTypes/n1-standard-4
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        diskName: disk-window-287806
+        sourceImage: https://www.googleapis.com/compute/v1/projects/windows-cloud/global/images/windows-server-2012-r2-dc-v20201110
+    networkInterfaces:
+    - network:  https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/global/networks/default
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    metadata:
+      DependsOn: 
+      - linuxvm
+    tags:
+      items:
+      - http
+    serviceAccounts:
+    - email: siddharth-c@dryicepoc-242713.iam.gserviceaccount.com
+      scopes:
+      - https://www.googleapis.com/auth/devstorage.read_only
+      - https://www.googleapis.com/auth/logging.write
+      - https://www.googleapis.com/auth/monitoring.write
+      - https://www.googleapis.com/auth/servicecontrol
+      - https://www.googleapis.com/auth/service.management.readonly
+resources:
+- name: iautomatewindowvmsql
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-f
+    machineType: https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/zones/us-central1-f/machineTypes/n1-standard-4
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        diskName: disk-window-287807
+        sourceImage: https://www.googleapis.com/compute/v1/projects/windows-sql-cloud/global/images/sql-2017-web-windows-2019-dc-v20201110
+    networkInterfaces:
+    - network:  https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/global/networks/default
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    metadata:
+      items:
+      - key: windows-startup-script-cmd
+        value: |
+          mkdir c:\TestGcp2
+          sqlcmd
+          create database iautomatedb
+          go
+    tags:
+      items:
+      - http
+    serviceAccounts:
+    - email: siddharth-c@dryicepoc-242713.iam.gserviceaccount.com
+      scopes:
+      - https://www.googleapis.com/auth/devstorage.read_only
+      - https://www.googleapis.com/auth/logging.write
+      - https://www.googleapis.com/auth/monitoring.write
+      - https://www.googleapis.com/auth/servicecontrol
+      - https://www.googleapis.com/auth/service.management.readonly
+resources:
+- name: iautomatevm
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-f
+    machineType: https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/zones/us-central1-f/machineTypes/n1-standard-4
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        diskName: disk-learncicd-287808
+        sourceImage: https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/images/rhel-7-v20201112
+    networkInterfaces:
+    - network:  https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/global/networks/default
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    metadata:
+      items:
+      - key: startup-script
+        value: |
+          #!/bin/bash
+          sudo su -
+          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+          yum install ansible -y
+          touch /etc/ansible/hosts
+          mkdir /etc/ansible/group_vars      
+          mkdir /etc/ansible/roles
+          cd /etc/ansible/roles
+          gsutil cp gs://dryiceiautomate/awx-installation.sh .
+          gsutil cp -r gs://dryiceiautomate/reource/roles .
+          
+          echo "vault" > /etc/ansible/vault
+    tags:
+      items:
+      - http
+    serviceAccounts:
+    - email: siddharth-c@dryicepoc-242713.iam.gserviceaccount.com
+      scopes:
+      - https://www.googleapis.com/auth/devstorage.read_only
+      - https://www.googleapis.com/auth/logging.write
+      - https://www.googleapis.com/auth/monitoring.write
+      - https://www.googleapis.com/auth/servicecontrol
+      - https://www.googleapis.com/auth/service.management.readonly
+      - https://www.googleapis.com/auth/trace.append      
+- type: compute.v1.firewall
+  name: default-allow-http
+  properties:
+    network: https://www.googleapis.com/compute/v1/projects/dryicepoc-242713/global/networks/default
+    targetTags: 
+    - http
+    allowed:
+    - IPProtocol: tcp
+      ports: 
+      - '8080'
+    sourceRanges:
+    - 0.0.0.0/0
